@@ -1,4 +1,4 @@
-StatisticalProcessTest <- function (input, input)
+StatisticalProcessTest <- function (input1, input2, input3)
 #Load Packages
 library(tidyverse)
 library(viridis)
@@ -6,20 +6,21 @@ library(ggpubr)
 library(moments)
 
 # look at inputted data
+input= input1-input2  
 input %>% glimpse() 
 
 # Withingroupstats
 stat_s = input %>% 
   # For each timestep
-  group_by(time) %>%
+  group_by(input3) %>%
   # Calculate these statistics of interest!
   summarize(
     # within-group mean
-    xbar = mean(temp),
+    xbar = mean(input),
     # within-group range
-    r = max(temp) - min(temp),
+    r = max(input) - min(input),
     # within-group standard deviation
-    sd = sd(temp),
+    sd = sd(input),
     # within-group sample size
     nw = n(),
     # Degrees of freedom within groups
@@ -96,8 +97,8 @@ dn = function(n, reps = 1e4){
 }
 
 stat_i = input %>%
-  group_by(time) %>%
-  summarize(r = temp %>% range() %>% diff() %>% abs(),
+  group_by(input3) %>%
+  summarize(r = input %>% range() %>% diff() %>% abs(),
             n_w = n()) # get subgroup size
 # Let's get average within group range for temperature...
 stat = stat_i %>%
@@ -123,7 +124,7 @@ bn = function(n, reps = 1e4){
 }
 
 stat_i = input %>%
-  group_by(time) %>%
+  group_by(input3) %>%
   summarize(s = temp %>% sd(),
             n_w = n()) # get subgroup size
 
