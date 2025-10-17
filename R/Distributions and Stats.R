@@ -1,7 +1,7 @@
 DataDistrubition <- function (input, input)
-
+  
   #load packages     
-library(ggplot2) # for visualization
+  library(ggplot2) # for visualization
 library(dplyr) # for pipelines!
 library(MASS) # for fitting distributions
 
@@ -49,6 +49,5 @@ g1 <- ggplot(data = Datasim, mapping = aes(x = x, fill = type)) +
        subtitle = "Distribution of best fits", fill = "Type")
 # Then view it!
 g1
-
 
 
