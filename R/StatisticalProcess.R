@@ -1,4 +1,4 @@
-StatisticalProcessTest <- function (input1, input2, input3)
+StatisticalProcessTest <- function (input1, input2, input3) {
 #Load Packages
 library(tidyverse)
 library(viridis)
@@ -60,7 +60,7 @@ labels = stat_s %>%
     text = paste(name, value, sep = " = "))
 
 stat_s %>%
-  ggplot(mapping = aes(x = time, y = xbar)) +
+  g1=ggplot(mapping = aes(x = time, y = xbar)) +
   geom_hline(mapping = aes(yintercept = mean(xbar)), color = "lightgrey", size = 3) +
   geom_ribbon(mapping = aes(ymin = lower, ymax = upper), fill = "steelblue", alpha = 0.2) +
   geom_line(size = 1) +
@@ -69,6 +69,7 @@ stat_s %>%
   geom_label(data = labels, mapping = aes(x = time, y = value, label = text),  hjust = 1)  +
   labs(x = "Time (Subgroups)", y = "Average",
        subtitle = "Average and Standard Deviation Chart")
+  return(g1)
 
 
 #Finding dx factors 
@@ -149,6 +150,9 @@ stat = stat %>%
 # Check it out!
 stat %>%
   select(sbar, sbar_lower, sbar_upper)
+
+  
+  }
 
 
 
