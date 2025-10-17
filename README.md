@@ -6,3 +6,6 @@
 
 ## Our Tool 💡🔋
 - **Description:** The system analyzes input data defined by the team to perform statistical evaluations, including standard descriptive statistics, control chart generation for a ten-panel power output sample, power output frequency distribution plotting, and estimation of the mean time to failure along with its confidence interval.
+- **User:**
+- **Functions:** (descriptions)
+- 
