@@ -1,7 +1,7 @@
-DataDistrubition <- function (input, input)
+DataDistrubition <- function (panel_telemetry$actual_output_kW)
   
   #load packages     
-  library(ggplot2) # for visualization
+library(ggplot2) # for visualization
 library(dplyr) # for pipelines!
 library(MASS) # for fitting distributions
 
