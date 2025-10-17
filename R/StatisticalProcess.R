@@ -1,4 +1,4 @@
-StatisticalProcess <- function (input, input)
+StatisticalProcessTest <- function (input, input)
 #Load Packages
 library(tidyverse)
 library(viridis)
@@ -7,10 +7,10 @@ library(moments)
 
 # look at inputted data
 input %>% glimpse() 
-  
+
 # Withingroupstats
 stat_s = input %>% 
-  # For each timestpe
+  # For each timestep
   group_by(time) %>%
   # Calculate these statistics of interest!
   summarize(
@@ -148,6 +148,7 @@ stat = stat %>%
 # Check it out!
 stat %>%
   select(sbar, sbar_lower, sbar_upper)
+
 
 
 
