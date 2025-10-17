@@ -1,4 +1,4 @@
-DataDistrubition <- function (panel_telemetry$actual_output_kW)
+DataDistrubition <- function (input) {
   
   #load packages     
 library(ggplot2) # for visualization
@@ -45,9 +45,14 @@ Datasim <- bind_rows(
 )
 g1 <- ggplot(data = Datasim, mapping = aes(x = x, fill = type)) +
   geom_density(alpha = 0.5) +
-  labs(x = "Seawall Height (m)", y = "Density (Frequency)", 
+  labs(x = "Expected Output (Kw)", y = "Density (Frequency)", 
        subtitle = "Distribution of best fits", fill = "Type")
 # Then view it!
-g1
+return(g1)
+}
+
+DataDistrubition(panel_telemetry$actual_output_kW)
+
+
 
 
