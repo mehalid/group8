@@ -106,4 +106,48 @@ stat = stat_i %>%
 # Check it!
 stat
 
+#Finding bx factors 
+bn = function(n, reps = 1e4){
+  tibble(rep = 1:reps) %>%
+    group_by(rep) %>%
+    summarize(s = rnorm(n, mean = 0, sd = 1) %>% sd()) %>%
+    summarize(b2 = mean(s), 
+              b3 = sd(s),
+              C4 = b2, # this is sometimes called C4
+              A3 = 3 / (b2 * sqrt( n  )),
+              B3 = 1 - 3 * b3/b2,
+              B4 = 1 + 3 * b3/b2,
+              # bound B3 at 0, since we can't have a standard deviation below 0
+              B3 = if_else(B3 < 0, true = 0, false = B3)) %>%
+    return()
+}
+
+stat_i = input %>%
+  group_by(time) %>%
+  summarize(s = temp %>% sd(),
+            n_w = n()) # get subgroup size
+
+stat_i
+
+# Let's get average within group range for temperature...
+stat = stat_i %>%
+  summarize(sbar = mean(s), # get Rbar
+            n_w = unique(n_w)) # assuming constant subgroup size...
+# Check it!
+stat
+
+mybstat = bn(n = stat$n_w)
+# Calculate Control Limits
+stat = stat %>%
+  # Add our constants to the data.frame...
+  mutate(mybstat) %>%
+  # Calculate 3 sigma control limits
+  mutate(sbar_lower = sbar * B3,
+         sbar_upper = sbar * B4)
+
+# Check it out!
+stat %>%
+  select(sbar, sbar_lower, sbar_upper)
+
+
 
