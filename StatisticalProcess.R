@@ -69,3 +69,41 @@ stat_s %>%
   labs(x = "Time (Subgroups)", y = "Average",
        subtitle = "Average and Standard Deviation Chart")
 
+
+#Finding dx factors 
+# Let's calculate our own d function
+
+dn = function(n, reps = 1e4){
+  # For 10,0000 reps
+  tibble(rep = 1:reps) %>%
+    # For each rep,
+    group_by(rep) %>%
+    # Simulate the ranges of n values
+    summarize(r = rnorm(n = n, mean = 0, sd = 1) %>% range() %>% diff() %>% abs()) %>%
+    ungroup() %>%
+    # And calculate...
+    summarize(
+      # Mean range
+      d2 = mean(r),
+      # standard deviation of ranges
+      d3 = sd(r),
+      # and constants for obtaining lower and upper ci for rbar
+      D3 = 1 - 3*(d3/d2), # sometimes written D3
+      D4 = 1 + 3*(d3/d2), # sometimes written D4
+      # Sometimes D3 goes negative; we need to bound it at zero
+      D3 = if_else(D3 < 0, true = 0, false = D3) ) %>%
+    return()
+}
+
+stat_i = input %>%
+  group_by(time) %>%
+  summarize(r = temp %>% range() %>% diff() %>% abs(),
+            n_w = n()) # get subgroup size
+# Let's get average within group range for temperature...
+stat = stat_i %>%
+  summarize(rbar = mean(r), # get Rbar
+            n_w = unique(n_w)) # assuming constant subgroup size...
+# Check it!
+stat
+
+
