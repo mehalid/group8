@@ -8,7 +8,8 @@ StatisticalProcessTest <- function (input1, input2, input3) {
   input= tibble( 
     actual=input1,
     expected=input2,
-    Id=input3
+    Id=input3,
+    ratio = input1 / input2
     )
   
   # look at inputted data
@@ -18,11 +19,11 @@ StatisticalProcessTest <- function (input1, input2, input3) {
     # Calculate these statistics of interest!
     summarize(
       # within-group mean
-      xbar = mean(actual),
+      xbar = mean(ratio),
       # within-group range
-      r = max(actual) - min(actual),
+      r = max(ratio) - min(ratio),
       # within-group standard deviation
-      sd = sd(actual),
+      sd = sd(ratio),
       # within-group sample size
       nw = n(),
       # Degrees of freedom within groups
@@ -39,6 +40,10 @@ StatisticalProcessTest <- function (input1, input2, input3) {
       # And get standard error (in a way that retains each subgroup's sample size!)
       se = sigma_s / sqrt(nw),
       # Calculate 6-sigma control limits!
+      upper1= mean(xbar) + 2*se,
+      lower1= mean(xbar) -2*se,
+      upper2=mean(xbar)+se,
+      lower2=mean(xbar)-se,
       upper = mean(xbar) + 3*se,
       lower = mean(xbar) - 3*se)
   
@@ -60,14 +65,18 @@ StatisticalProcessTest <- function (input1, input2, input3) {
   g1 = stat_s %>%
     ggplot(mapping = aes(x = Id, y = xbar)) +
     geom_hline(aes(yintercept = mean(xbar)), color = "lightgrey", size = 3) +
+    geom_hline(aes(yintercept = lower), color = "pink", size = 3) +
+    geom_hline(aes(yintercept = upper1), color = "pink", size = 3) +
+    geom_hline(aes(yintercept = upper2), color = "purple", size = 3) +
+    geom_hline(aes(yintercept = lower2), color = "purple", size = 3) +
     geom_ribbon(aes(ymin = lower, ymax = upper), fill = "steelblue", alpha = 0.2) +
     geom_line(size = 1) +
     geom_point(size = 5) +
     # Plot labels
     #geom_label(data = labels, mapping = aes(x = labels$time, y = value, label = text),  hjust = 1)  +
-    geom_label(data = labels, aes(x = time, y = value, label = text), hjust = 1)
-    labs(x = "Time (Subgroups)", y = "Average",
-         subtitle = "Average and Standard Deviation Chart")
+    geom_label(data = labels, aes(x = time, y = value, label = text), hjust = 1) +
+    labs(x = "Time", y = "Average Efficiency",
+         subtitle = "Average Chart")
     return(g1)
   # 
   # dn = function(n, reps = 1e4){
@@ -149,7 +158,9 @@ StatisticalProcessTest <- function (input1, input2, input3) {
   
 }
 
-StatisticalProcessTest(panel_telemetry$actual_output_kW[1:1000],panel_telemetry$expected_output_kW[1:1000],panel_telemetry$timestep[1:1000])
+StatisticalProcessTest(telemetry_normal$actual_output_kW[1:1000],telemetry_normal$expected_output_kW[1:1000],telemetry_normal$timestep[1:1000])
+
+
 
 
 
