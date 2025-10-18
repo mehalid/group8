@@ -7,6 +7,14 @@ stats <- panel_stats("R/panel_life_NY001.csv",
                      failure_col = "failure_date",
                      horizons = c(365, 730, 1825))  # 1, 2, and 5 years
 
+rec <- generate_panel_recommendation(stats)
+cat(rec)
+
+
+
+
+
+
 library(dplyr)
 library(ggplot2)
 library(ggpubr)
