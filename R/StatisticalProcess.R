@@ -56,16 +56,16 @@ StatisticalProcessTest <- function (input1, input2, input3) {
   
   labels = stat_s %>%
     summarize(
-      time = c(max(Id), max(Id), max(Id)),
-      type = c("xbbar",  "upper", "lower"),
-      name = c("mean", "+3 s", "-3 s"),
-      value = c(mean(xbar), unique(upper), unique(lower)),
+      time = c(max(Id), max(Id), max(Id), max(Id), max(Id), max(Id), max(Id)),
+      type = c("xbbar",  "upper", "lower", "upper1", "lower1", "upper2", "lower2"),
+      name = c("mean", "+3 s", "-3 s", "+2 s", "-2 s", "+1 s", "-1 s"),
+      value = c(mean(xbar), unique(upper), unique(lower), unique(upper1), unique(lower1), unique(upper2), unique(lower2)),
       text = paste(name, value, sep = " = "))
   
   g1 = stat_s %>%
     ggplot(mapping = aes(x = Id, y = xbar)) +
     geom_hline(aes(yintercept = mean(xbar)), color = "lightgrey", size = 3) +
-    geom_hline(aes(yintercept = lower), color = "pink", size = 3) +
+    geom_hline(aes(yintercept = lower1), color = "pink", size = 3) +
     geom_hline(aes(yintercept = upper1), color = "pink", size = 3) +
     geom_hline(aes(yintercept = upper2), color = "purple", size = 3) +
     geom_hline(aes(yintercept = lower2), color = "purple", size = 3) +
@@ -158,9 +158,7 @@ StatisticalProcessTest <- function (input1, input2, input3) {
   
 }
 
-StatisticalProcessTest(telemetry_normal$actual_output_kW[1:1000],telemetry_normal$expected_output_kW[1:1000],telemetry_normal$timestep[1:1000])
-
-
+g1= StatisticalProcessTest(telemetry_normal$actual_output_kW[1:1000],telemetry_normal$expected_output_kW[1:1000],telemetry_normal$timestep[1:1000])
 
 
 
