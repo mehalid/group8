@@ -1,0 +1,24 @@
+Package: teamATE_solarPanel_tool
+Version: 1.0
+Date: 2025-10-17
+Title: Demo package for Publicly Available R Package Tool
+Authors@R: c(
+  person("Desai", "Mehali", email = "mnd38@cornell.edu", role = c("aut", "cre")),
+  person("Prasad", "Adhyan", email = "ap842@cornell.edu", role = "aut"),
+  person("Lin", "Andrew", email = "al885@cornell.edu", role = "aut"),
+  person("Redrovan", "Jennie", email = "jsr298@cornell.edu", role = "aut"),
+  person("Sanchez", "Aleira", email = "ans222@cornell.edu", role = "aut") )
+Author: Mehali Desai [aut, cre],
+  Adhyan Prasad [aut],
+  Jennie Rendrovan [aut],
+  Aleira Sanchez [aut],
+  Andrew Lin [aut]
+Maintainer: Mehali Desai <mnd38@cornell.edu>
+Description: One-line description for package goes here. Make sure this script ends with an extra blank line after `Imports:`
+License: MIT + file LICENSE
+Encoding: UTF-8
+Rxoygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Depends: R (>= 3.5.0)
+Imports:
+  dplyr (>= 1.1.4)
