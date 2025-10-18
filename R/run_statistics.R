@@ -1,4 +1,4 @@
-# 1️⃣ Load your script (contains the panel_stats function)
+# load the script with the functions
 source("R/statistics.R")
 
 # 2️⃣ Run the function directly on your CSV file
@@ -11,16 +11,12 @@ library(dplyr)
 library(ggplot2)
 library(ggpubr)
 
-# --- params from your fitted model ---
-lambda <- stats$failure_rate_per_year   # per year
+lambda <- stats$failure_rate_per_year  
 mttf   <- stats$mttf_days/365  #per year
 
-# (quick unit tip) if you ever work in *years* instead:
-# lambda_year <- stats$failure_rate_per_year
-# then use t_years everywhere instead of t_days.
 
 # --- make a smooth theoretical curve domain (in days) ---
-t_max <- qexp(0.90, rate = lambda)                # ~99.9th percentile lifetime
+t_max <- qexp(0.90, rate = lambda)                # ~90th percentile lifetime
 curve_df <- tibble::tibble(
   t_years = seq(0, t_max, length.out = 100)
 ) %>%
@@ -30,17 +26,6 @@ curve_df <- tibble::tibble(
     surv = exp(-lambda * t_years),                  # S(t)
     haz  = lambda                                  # h(t) (constant for exponential)
   )
-
-# --- key percentiles & quick summary (days) ---
-summ_tbl <- tibble::tibble(
-  metric = c("MTTF (years)",
-             "Median (years)", "P90 (years)", "P95 (years)"),
-  value  = c(mttf,
-             qexp(0.50, lambda),
-             qexp(0.90, lambda),
-             qexp(0.95, lambda))
-)
-print(summ_tbl)
 
 # --- plots (all purely theoretical) ---
 p_pdf <- ggplot(curve_df, aes(t_years, pdf)) +
